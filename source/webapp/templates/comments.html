@@ -1,0 +1,5 @@
+    <p>{{ comment.commented_by }} : {{ comment.text }}</p>
+        {% for comment in comment.comments.all %}
+            {% include "comments.html" %}
+        {% endfor %}
+
