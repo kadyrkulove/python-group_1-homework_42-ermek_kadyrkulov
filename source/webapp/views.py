@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView
 from webapp.models import User, Article, Comment, Rating
 from webapp.forms import ArticleForm, UpdateCommentForm, CommentForm
 from django.urls import reverse_lazy, reverse
@@ -57,3 +57,9 @@ class UpdateCommentView(UpdateView):
     template_name = 'comment_update.html'
     form_class = UpdateCommentForm
     success_url = reverse_lazy('article_list')
+
+class ArticleDeleteView(DeleteView):
+    model = Article
+    template_name = 'article_delete.html'
+    success_url = reverse_lazy('article_list')
+
