@@ -1,5 +1,7 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView
 from webapp.models import User, Article, Comment, Rating
+from webapp.forms import ArticleForm
+from django.urls import reverse_lazy, reverse
 
 
 class UserListView(ListView):
@@ -20,6 +22,19 @@ class ArticleDetailView(DetailView):
     template_name = 'article_detail.html'
 
 
+
 class UserFavoritesView(DetailView):
     model = User
     template_name = 'user_favorites.html'
+
+class ArticleCreateView(CreateView): #Задание из 3 домашки
+    model = Article
+    template_name = 'article_create.html'
+    form_class = ArticleForm
+    success_url = reverse_lazy('article_list')
+
+class ArticleUpdateView(UpdateView):
+    model = Article
+    template_name = 'article_update.html'
+    form_class = ArticleForm
+    success_url = reverse_lazy('article_list')
