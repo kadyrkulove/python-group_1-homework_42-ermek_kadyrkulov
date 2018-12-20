@@ -1,4 +1,6 @@
-    <p>{{ comment.commented_by }} : {{ comment.text }}</p>
+<p>{{ comment.commented_by }} : {{ comment.text }}</p>
+        <h5>Автор - {{ comment.commented_by}}</h5>
+        <a href="{% url 'article_com_update' comment.pk %}">Редактировать комментарий</a>
         {% for comment in comment.comments.all %}
             {% include "comments.html" %}
         {% endfor %}

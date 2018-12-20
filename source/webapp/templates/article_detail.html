@@ -5,6 +5,9 @@
     <h1>{{ article.title }}</h1>
     <p>{{ article.text }}</p>
     <p><b>{{ article.author }}</b></p>
+
+    <a href="{% url 'article_com_create' article.pk %}" class="nav-link">Создать коментарий</a>
+
     <h2>Комментарии:</h2>
     <ul>
         {% for comment in article.root_comments %}

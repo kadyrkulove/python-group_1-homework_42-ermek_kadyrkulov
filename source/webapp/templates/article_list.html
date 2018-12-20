@@ -4,4 +4,12 @@
     {% for article in article_list %}
         {% include "article.html" %}
     {% endfor %}
+
+    <div class="mt-3">
+        <form action="{% url 'article_list' %}" method="GET">
+            {{ form.article_name }}
+            <button type="submit" class="btn btn-primary">Искать</button>
+        </form>
+    </div>
+
 {% endblock %}

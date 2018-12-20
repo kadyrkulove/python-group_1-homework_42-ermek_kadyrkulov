@@ -1,6 +1,7 @@
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView
 from webapp.models import User, Article, Comment, Rating
-from webapp.forms import ArticleForm, UpdateCommentForm, CommentForm
+from webapp.forms import ArticleForm, UpdateCommentForm, CommentForm, ArticleSearchForm
 from django.urls import reverse_lazy, reverse
 
 
@@ -8,9 +9,18 @@ class UserListView(ListView):
     model = User
     template_name = 'user_list.html'
 
-class ArticleListView(ListView):
+
+class ArticleListView(ListView, FormView):
     model = Article
     template_name = 'article_list.html'
+    form_class = ArticleSearchForm
+
+    def get_queryset(self):
+        article_name = self.request.GET.get('article_name')
+        if article_name:
+            return self.model.objects.filter(title__icontains=article_name)
+        else:
+            return self.model.objects.all()
 
 class UserDetailView(DetailView):
     model = User
@@ -41,7 +51,7 @@ class ArticleUpdateView(UpdateView):
 
 class CommentCreateView(CreateView):
     model = Comment
-    template_name = 'comment_create.html'
+    template_name = 'article_com_create.html'
     form_class = CommentForm
     success_url = reverse_lazy('article_detail')
 
@@ -54,7 +64,7 @@ class CommentCreateView(CreateView):
 
 class UpdateCommentView(UpdateView):
     model = Comment
-    template_name = 'comment_update.html'
+    template_name = 'article_com_update.html'
     form_class = UpdateCommentForm
     success_url = reverse_lazy('article_list')
 
