@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView
 from webapp.models import User, Article, Comment, Rating
-from webapp.forms import ArticleForm
+from webapp.forms import ArticleForm, UpdateCommentForm, CommentForm
 from django.urls import reverse_lazy, reverse
 
 
@@ -37,4 +37,23 @@ class ArticleUpdateView(UpdateView):
     model = Article
     template_name = 'article_update.html'
     form_class = ArticleForm
+    success_url = reverse_lazy('article_list')
+
+class CommentCreateView(CreateView):
+    model = Comment
+    template_name = 'comment_create.html'
+    form_class = CommentForm
+    success_url = reverse_lazy('article_detail')
+
+    def form_valid(self, form):
+        form.instance.article = get_object_or_404(Article, pk=self.kwargs['pk'])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('article_detail', kwargs={'pk': self.kwargs['pk']})
+
+class UpdateCommentView(UpdateView):
+    model = Comment
+    template_name = 'comment_update.html'
+    form_class = UpdateCommentForm
     success_url = reverse_lazy('article_list')
